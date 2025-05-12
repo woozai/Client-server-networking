@@ -13,7 +13,4 @@ A Python-based distributed client-server messaging system that supports multiple
 - 🧵 Threaded handling for concurrent connections
 - 🎨 Terminal output with colored logs using a custom `colors` module
 
----
-
-## 🧱 Project Structure
 
