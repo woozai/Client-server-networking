@@ -34,8 +34,11 @@ A lightweight TCP-based Python client–server framework supporting multiple ser
   When a client sends `"<recipient>: <message>"`, the server checks its local registry. If the recipient is present, it delivers the message immediately.  
 - **Cluster Broadcast**  
   If the recipient is not local, the server broadcasts the (sender, recipient, message) tuple to all peer servers. Each peer repeats the lookup and forwards to its local client if found.  
+- **Registry Caching**  
+  Once a peer server responds with the recipient’s address, the original server adds that mapping to its local registry—so future messages to the same user go straight there without another broadcast.  
 - **Portable Header**  
   Every message is wrapped in a fixed 6-byte header (`mType`, `mSubType`, `mLen`, `mSubLen`) followed by payload segments for sender name, recipient name, and message body. This uniform framing simplifies parsing and extensibility.
+
 
 ### 4. RTT-Based Server Switching  
 - **Echo Probes**  
