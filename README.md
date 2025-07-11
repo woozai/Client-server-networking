@@ -13,6 +13,29 @@ Servers will soon be containerized using Docker for streamlined deployment.
 - 🛠️ **Extensible Binary Protocol** with fixed headers for easy parsing  
 
 
+### Protocol Header
+
+All messages use a 6-byte header packed as:
+
+    struct.pack('>BBHH', mType, mSubType, mLen, mSubLen)
+
+| Field     | Size | Type        | Description                                                          |
+|-----------|------|-------------|----------------------------------------------------------------------|
+| **mType**    | 1    | `B` (uint8) | Message type (0=REGISTER, 1=MESSAGE, 2=ECHO, 3=DISCONNECT)           |
+| **mSubType** | 1    | `B` (uint8) | Subtype (0=REQUEST, 1=RESPONSE)                                       |
+| **mLen**     | 2    | `H` (uint16)| Length of the **Sender Name** payload (bytes)                         |
+| **mSubLen**  | 2    | `H` (uint16)| Length of the **Recipient Name** payload (bytes)                      |
+
+After the header, three UTF-8 payload segments follow:
+1. **Sender Name** — `mLen` bytes  
+2. **Recipient Name** — `mSubLen` bytes  
+3. **Message Body** — remaining bytes  
+
+Example header for an ECHO request with no sender/recipient:
+
+    struct.pack('>BBHH', 2, 0, 0, 0)
+
+
 ## ⚙️ How It Works
 
 ### 1. Multi-Server Topology  
