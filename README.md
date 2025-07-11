@@ -1,7 +1,7 @@
 # 🛰️ Multi-Server Client-Server Messaging System
 
-A lightweight TCP-based Python client–server framework with multi-server discovery, real-time message forwarding, and cached routing. Clients register to a server, send messages by recipient name (with cluster-wide lookup and cached mappings), and automatically fail over to the lowest-latency server via periodic RTT probes—ideal for hands-on learning of high-performance, fault-tolerant distributed systems.
-
+A lightweight TCP-based Python client–server framework with multi-server discovery (each server broadcasts on startup to discover and connect with active peers), real-time message forwarding, and cached routing. Clients register to a server, send messages by recipient name (with cluster-wide lookup and cached mappings), and automatically fail over to the lowest-latency server via periodic RTT probes—ideal for hands-on learning of high-performance, fault-tolerant distributed systems.
+Servers will soon be containerized using Docker for streamlined deployment.
 ---
 
 ## 🔑 Key Features
@@ -65,3 +65,46 @@ This architecture demonstrates:
 - **A clear, extensible binary protocol** for educational exploration  
 
 
+## ▶️ Getting Started
+
+> **You’ll need** multiple terminal windows or tabs—one per server instance and one per client session.
+
+1. **Install dependencies**  
+   ```bash
+   pip install
+   ```
+2. **Launch your servers (each in its own terminal)**  
+   ```bash
+   # Terminal 1
+    python server.py
+
+    # Terminal 2
+    python server.py
+    
+    # …repeat for any additional servers…
+   ```
+3. **Start a client (in a separate terminal)**  
+   ```bash
+   python client.py
+   ```
+
+### Register Your User
+
+```bash
+Enter username: alice
+Enter server port [3000]: 3000
+→ Registered as “alice” on server 3000
+```
+
+### Send a Message
+
+```bash
+> Enter 'rtt' or message in the format: < to who >: < message >
+```
+
+If “bob” isn’t on server 3000, it broadcasts the lookup to its peers, caches the discovered mapping, and delivers the message once “bob” is found.
+
+### Automatic Failover
+
+Clients send periodic RTT probes to each server.  
+If a peer has lower latency, the client seamlessly reconnects and continues messaging on that server.
