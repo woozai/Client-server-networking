@@ -1,6 +1,6 @@
 # 🛰️ Multi-Server Client-Server Messaging System
 
-A lightweight TCP-based Python client–server framework supporting multiple servers and real-time message forwarding. Clients register to their chosen server, send messages by recipient name (with cluster-wide lookup and forwarding), and automatically fail over to the lowest-latency server using periodic RTT probes—ideal for hands-on learning of performant, fault-tolerant distributed systems.
+A lightweight TCP-based Python client–server framework with multi-server discovery, real-time message forwarding, and cached routing. Clients register to a server, send messages by recipient name (with cluster-wide lookup and cached mappings), and automatically fail over to the lowest-latency server via periodic RTT probes—ideal for hands-on learning of high-performance, fault-tolerant distributed systems.
 
 ---
 
