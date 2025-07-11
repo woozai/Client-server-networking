@@ -44,13 +44,18 @@ Example header for an ECHO request with no sender/recipient:
 - **Peer Exchange**  
   Connected servers exchange an encoded list of all known server addresses (`ip:port`) so each node maintains an up-to-date cluster view.
 
-### 2. Client Registration  
+### 2. Client Registration & Server Connections  
 1. **Select & Connect**  
    A client prompts for a username and server choice, then opens a TCP socket to that server.  
 2. **Handshake**  
    The client sends a “register” packet containing its username.  
-3. **Registry Update**  
-   The server adds the client to its `clients` map and makes that information available to its peer servers.
+3. **Peer Discovery**  
+   The server responds with an encoded list of all active peers. The client then opens parallel TCP connections to each peer.  
+4. **RTT Probing & Failover**  
+   The client sends “echo” packets on every socket, measures each Round-Trip Time, and automatically switches its active messaging socket to the lowest-latency server.  
+5. **Registry Update**  
+   The original server adds the client to its `clients` map and propagates that info to all peers.
+
 
 ### 3. Message Routing & Forwarding  
 - **Direct Delivery**  
